@@ -7,8 +7,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.loto.game.LotoGame
-import com.example.loto.service.KegGeneratorImpl
-import com.example.loto.service.SpeakerServiceImpl
+import com.example.loto.game.service.KegGeneratorImpl
+import com.example.loto.game.service.SpeakerServiceImpl
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.button.MaterialButton
 import java.util.*

@@ -1,4 +1,4 @@
-package com.example.loto.service
+package com.example.loto.game.service
 
 import android.widget.TextView
 

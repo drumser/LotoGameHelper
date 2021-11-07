@@ -1,6 +1,6 @@
 package com.example.loto.game
 
-import com.example.loto.service.SpeakerService
+import com.example.loto.game.service.SpeakerService
 import java.util.*
 import kotlin.concurrent.fixedRateTimer
 
