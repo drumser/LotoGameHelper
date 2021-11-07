@@ -25,19 +25,21 @@ class LotoGame(
         isAppPaused = false
         onAppStarted()
 
-        timer = fixedRateTimer("timer", false, 0L, timerPeriod) {
-            if (isAppPaused) {
-                return@fixedRateTimer
-            }
+        timer = createTimer()
+    }
 
-            if (kegs.isEmpty() || !isAppStarted) {
-                stopGame()
-            } else {
-                val randomDigit = kegs.random()
-                kegs.remove(randomDigit)
-                speaker.speak(randomDigit.toString());
-                onNewKeg(randomDigit)
-            }
+    private fun createTimer() = fixedRateTimer("timer", false, 0L, timerPeriod) {
+        if (isAppPaused) {
+            return@fixedRateTimer
+        }
+
+        if (kegs.isEmpty() || !isAppStarted) {
+            stopGame()
+        } else {
+            val randomDigit = kegs.random()
+            kegs.remove(randomDigit)
+            speaker.speak(randomDigit.toString());
+            onNewKeg(randomDigit)
         }
     }
 
@@ -65,6 +67,7 @@ class LotoGame(
         if (!isAppStarted) {
             return
         }
+        timer = createTimer()
 
         isAppPaused = false
     }
@@ -73,6 +76,7 @@ class LotoGame(
         if (!isAppStarted) {
             return
         }
+        timer?.cancel()
 
         isAppPaused = true
     }
