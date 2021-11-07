@@ -1,2 +1,2 @@
 # Ведущий для игры в лото
-![Screenshot](images/screenshot1.jpg)
+![Screenshot](images/screenshot1.jpg | width=200)
