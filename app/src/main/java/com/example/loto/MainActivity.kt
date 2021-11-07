@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity(), OnInitListener {
 
         val lotoGame = LotoGame(
             speaker,
-            300L
+            6000L
         )
 
         lotoGame.onNewKeg = {
