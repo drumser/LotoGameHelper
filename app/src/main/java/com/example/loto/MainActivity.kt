@@ -1,10 +1,11 @@
 package com.example.loto
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.speech.tts.TextToSpeech.OnInitListener
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.example.loto.game.LotoGame
 import com.example.loto.service.KegGeneratorImpl
 import com.example.loto.service.SpeakerServiceImpl
@@ -31,7 +32,7 @@ class MainActivity : AppCompatActivity(), OnInitListener {
 
         val lotoGame = LotoGame(
             speaker,
-            20L
+            6000L
         )
 
         lotoGame.onNewKeg = {
@@ -64,7 +65,24 @@ class MainActivity : AppCompatActivity(), OnInitListener {
             }
         }
         resetButton.setOnClickListener {
-            lotoGame.resetGame()
+            val alertDialog: AlertDialog = this.let {
+                val builder = AlertDialog.Builder(it)
+                builder.apply {
+                    setMessage(getString(R.string.reset_message))
+                    setPositiveButton(
+                        getString(R.string.positive_button)
+                    ) { _, _ ->
+                        lotoGame.stopGame()
+                    }
+                    setNegativeButton(
+                        getString(R.string.negative_button)
+                    ) { _, _ ->
+                    }
+                }
+
+                builder.create()
+            }
+            alertDialog.show()
         }
     }
 

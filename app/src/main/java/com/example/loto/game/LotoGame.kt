@@ -1,6 +1,7 @@
 package com.example.loto.game
 
 import com.example.loto.service.SpeakerService
+import java.util.*
 import kotlin.concurrent.fixedRateTimer
 
 class LotoGame(
@@ -9,6 +10,7 @@ class LotoGame(
 ) {
     private var isAppStarted = false
     private var isAppPaused = false
+    private var timer: Timer? = null
     var onAppStarted: () -> Unit = {}
     var onAppFinished: () -> Unit = {}
     var onNewKeg: (digit: Int) -> Unit = {}
@@ -23,17 +25,13 @@ class LotoGame(
         isAppPaused = false
         onAppStarted()
 
-        fixedRateTimer("timer", false, 0L, timerPeriod) {
+        timer = fixedRateTimer("timer", false, 0L, timerPeriod) {
             if (isAppPaused) {
                 return@fixedRateTimer
             }
 
             if (kegs.isEmpty() || !isAppStarted) {
-                isAppPaused = false
-                isAppStarted = false
-                resetGame()
-                onAppFinished()
-                this.cancel()
+                stopGame()
             } else {
                 val randomDigit = kegs.random()
                 kegs.remove(randomDigit)
@@ -41,6 +39,14 @@ class LotoGame(
                 onNewKeg(randomDigit)
             }
         }
+    }
+
+    fun stopGame() {
+        isAppStarted = false
+        isAppPaused = false
+        timer?.cancel()
+        kegs = generateKegs()
+        onAppFinished()
     }
 
     fun togglePlay() {
@@ -73,12 +79,5 @@ class LotoGame(
 
     private fun generateKegs() = (1..90).toMutableList().apply {
         this.shuffle()
-    }
-
-    fun resetGame() {
-        isAppStarted = false
-        isAppPaused = false
-        kegs = generateKegs()
-        onAppFinished()
     }
 }
